@@ -4,64 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>{{ $title ?? 'Feedback of Power Supply Position' }}</title>
-   @vite(['resources/css/app.css', 'resources/js/app.js'])
-
-    @php
-        $manifestPath = public_path('build/manifest.json');
-        $manifest = file_exists($manifestPath)
-            ? json_decode(file_get_contents($manifestPath), true)
-            : null;
-
-        // If manifest is present, use it (normal production case)
-        if (is_array($manifest)) {
-            $cssFile = $manifest['resources/css/app.css']['file'] ?? null;
-            $jsEntry = $manifest['resources/js/app.js'] ?? null;
-            $jsFile = $jsEntry['file'] ?? null;
-            $jsCssFiles = $jsEntry['css'] ?? [];
-        } else {
-            // manifest missing: try to load any built assets under public/build/assets/
-            $assetsDir = public_path('build/assets');
-            $cssFile = null;
-            $jsFile = null;
-            $jsCssFiles = [];
-
-            if (is_dir($assetsDir)) {
-                $files = array_values(array_filter(scandir($assetsDir), function ($f) use ($assetsDir) {
-                    return is_file($assetsDir.DIRECTORY_SEPARATOR.$f);
-                }));
-
-                // prefer CSS and JS matching common names
-                foreach ($files as $f) {
-                    if (str_ends_with($f, '.css') && $cssFile === null) {
-                        $cssFile = 'assets/'.$f;
-                    }
-
-                    if (str_ends_with($f, '.js') && $jsFile === null) {
-                        $jsFile = 'assets/'.$f;
-                    }
-                }
-            }
-        }
-    @endphp
-
-    @if ($cssFile || $jsFile)
-        @if ($cssFile)
-            <link rel="stylesheet" href="{{ asset('build/'.$cssFile) }}">
-        @endif
-
-        @foreach ($jsCssFiles as $jsCssFile)
-            @if ($jsCssFile !== ($cssFile ? basename($cssFile) : null))
-                <link rel="stylesheet" href="{{ asset('build/'.$jsCssFile) }}">
-            @endif
-        @endforeach
-
-        @if ($jsFile)
-            <script type="module" src="{{ asset('build/'.$jsFile) }}"></script>
-        @endif
-    @else
-        {{-- No built manifest or assets found. Avoid calling @vite() which expects a manifest in production. --}}
-        {{-- In local development the Vite dev server will be used; ensure APP_ENV and VITE are configured. --}}
-    @endif
+    @vite(['resources/css/app.css', 'resources/js/app.js'])
 </head>
 
 <body class="min-h-screen">
