@@ -1,0 +1,30 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* Copied from backend resources/css/app.css to preserve colors and background */
+
+@layer base {
+    html { scroll-behavior: smooth; }
+
+    body {
+        min-height: 100vh;
+        overflow-x: hidden;
+        background:
+            radial-gradient(circle at 12% 8%, rgba(34, 211, 238, 0.22), transparent 28rem),
+            radial-gradient(circle at 88% 0%, rgba(251, 191, 36, 0.18), transparent 24rem),
+            linear-gradient(145deg, #08111f 0%, #101827 48%, #020617 100%);
+        color: #f8fafc;
+        font-family: Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+    }
+
+    ::selection { background: rgba(251, 191, 36, 0.42); color: #f8fafc; }
+}
+
+/* Reuse component and utility layers from backend to keep identical visuals */
+
+@layer components {
+  /* minimal set to ensure layout looks close to original */
+  .app-navbar { @apply sticky top-4 z-50 mb-8 flex flex-col gap-4 rounded-[1.25rem] border border-cyan-100/20 bg-slate-950/80 px-4 py-4 shadow-2xl shadow-cyan-950/30 backdrop-blur-xl md:flex-row md:items-center md:justify-between md:px-6; }
+  .nav-link { @apply inline-flex min-h-10 items-center justify-center rounded-full border border-white/10 px-4 py-2 text-sm font-bold text-slate-100 transition duration-300 hover:-translate-y-0.5 hover:border-cyan-200/60 hover:bg-white/10 hover:text-white; }
+}
